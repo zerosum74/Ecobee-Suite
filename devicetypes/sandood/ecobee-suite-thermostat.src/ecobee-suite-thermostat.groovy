@@ -850,18 +850,6 @@ def generateEvent(List updates) {
 							}
 						}
 						break;
-					
-					case 'fanSpeed':
-						List fanSpeedOptions = new JsonSlurper().parseText(device.currentValue('fanSpeedOptions',true))
-						String realFanSpeed = (fanSpeedOptions.size() <= 1) ? 'low' : 'optimized'
-						if (fanSpeedOptions.contains(sendValue) && (sendValue != 'medium')) {
-							realFanSpeed = sendValue as String
-						} else if ((sendValue == 'medium') && !fanSpeedOptions.contains('medium') &&  fanSpeedOptions.contains("high")) {				// work around for Ecobee idiosyncracy	 
-							realFanSpeed = 'high' 					// medium turns on high if only 2 speeds exist
-						}
-						isChange = (device.currentValue('fanSpeed', true) != realFanSpeed)
-						if (isChange || forceChange) event = eventFront + [value: realFanSpeed, descriptionText: "Fan Speed is ${realFanSpeed}", isStateChange: true, displayed: true]
-						break;
 
 					case 'thermostatMode':
 						//log.debug "thermostatMode: ${sendValue}, isChange: ${isChange}, tMode: ${tMode}"
